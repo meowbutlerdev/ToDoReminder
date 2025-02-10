@@ -33,6 +33,10 @@ class ViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
+    }
+
     override func viewDidLoad() {
         datePicker.contentHorizontalAlignment = .left
 
