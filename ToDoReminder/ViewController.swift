@@ -20,7 +20,19 @@ class ViewController: UIViewController {
     weak var toDoDelegate: AddToDoDelegate?
 
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        guard let title = titleTextField.text, !title.isEmpty else { return }
+        guard let title = titleTextField.text, !title.isEmpty else {
+            let alert = UIAlertController(
+                title: "제목을 입력해주세요.😭",
+                message: "",
+                preferredStyle: .alert
+            )
+            let okAction = UIAlertAction(title: "확인👌", style: .default)
+
+            alert.addAction(okAction)
+            present(alert, animated: true)
+
+            return
+        }
 
         let toDo = ToDo(
             title: title,
