@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="lVD-ny-VAL">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="toDo" id="lVD-ny-VAL">
                                 <rect key="frame" x="0.0" y="50" width="393" height="44.666667938232422"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lVD-ny-VAL" id="bHT-dl-ey8">
@@ -35,7 +35,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dJm-44-CRQ">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" id="J3U-zL-Ud5"/>
+                                <segue destination="BYZ-38-t0r" kind="show" identifier="toAddToDo" id="J3U-zL-Ud5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -98,11 +98,15 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="저장" id="6D5-LD-qdQ">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="3Y8-cN-G1z"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="contentTextView" destination="BKu-CV-A2w" id="B9T-Ua-UE2"/>
                         <outlet property="datePicker" destination="P1Q-zR-58y" id="pli-8f-58N"/>
+                        <outlet property="notificationSwitch" destination="uMO-B3-5Ms" id="qlI-3d-FMm"/>
                         <outlet property="titleTextField" destination="i9M-B1-tTT" id="lJ4-hv-13V"/>
                     </connections>
                 </viewController>
