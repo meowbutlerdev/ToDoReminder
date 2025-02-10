@@ -11,13 +11,15 @@ protocol AddToDoDelegate: AnyObject {
     func addToDo(_ toDo: ToDo)
 }
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var datePicker: UIDatePicker!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var notificationSwitch: UISwitch!
 
     weak var toDoDelegate: AddToDoDelegate?
+
+    let contentPlaceholder = "내용을 입력하세요."
 
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text, !title.isEmpty else {
@@ -49,6 +51,20 @@ class ViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
 
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == contentPlaceholder {
+            textView.text = ""
+            textView.textColor = .black
+        }
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = contentPlaceholder
+            textView.textColor = .lightGray
+        }
+    }
+
     override func viewDidLoad() {
         datePicker.contentHorizontalAlignment = .left
 
@@ -59,5 +75,9 @@ class ViewController: UIViewController {
         contentTextView.layer.borderColor = UIColor.lightGray.cgColor
         contentTextView.layer.borderWidth = 1
         contentTextView.layer.cornerRadius = 8.0
+
+        contentTextView.delegate = self
+        contentTextView.text = contentPlaceholder
+        contentTextView.textColor = .lightGray
     }
 }
