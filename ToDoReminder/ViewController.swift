@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var notificationSwitch: UISwitch!
 
     weak var toDoDelegate: AddToDoDelegate?
+    var toDo: ToDo?
 
     let contentPlaceholder = "내용을 입력하세요."
 
@@ -38,7 +39,7 @@ class ViewController: UIViewController, UITextViewDelegate {
 
         let toDo = ToDo(
             title: title,
-            content: contentTextView.text,
+            content: contentTextView.text == contentPlaceholder ? "" : contentTextView.text,
             date: datePicker.date,
             hasNotification: notificationSwitch.isOn
         )
@@ -77,7 +78,22 @@ class ViewController: UIViewController, UITextViewDelegate {
         contentTextView.layer.cornerRadius = 8.0
 
         contentTextView.delegate = self
-        contentTextView.text = contentPlaceholder
-        contentTextView.textColor = .lightGray
+
+        if let toDo = toDo {
+            titleTextField.text = toDo.title
+            datePicker.date = toDo.date
+            notificationSwitch.isOn = toDo.hasNotification
+
+            if toDo.content.isEmpty {
+                contentTextView.text = contentPlaceholder
+                contentTextView.textColor = .lightGray
+            } else {
+                contentTextView.text = toDo.content
+                contentTextView.textColor = .black
+            }
+        } else {
+            contentTextView.text = contentPlaceholder
+            contentTextView.textColor = .lightGray
+        }
     }
 }
