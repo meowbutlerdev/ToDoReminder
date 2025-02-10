@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Foundation
 
-class TableViewController: UITableViewController {
-    var toDos: [String] = []
+class TableViewController: UITableViewController, AddToDoDelegate {
+    var toDos: [ToDo] = []
 
     func setNoDataLabel() {
         if toDos.isEmpty {
@@ -28,13 +29,54 @@ class TableViewController: UITableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return toDos.count
+    func addToDo(_ toDo: ToDo) {
+        toDos.append(toDo)
+        tableView.reloadData()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toAddToDo" {
+            if let addToDoVC = segue.destination as? ViewController {
+                addToDoVC.toDoDelegate = self
+            }
+        }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setNoDataLabel()
+    }
+}
+
+extension TableViewController {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "toDo",
+            for: indexPath
+        )
+        cell.textLabel?.text = toDos[indexPath.row].title
+
+        setNoDataLabel()
+
+        return cell
+    }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return toDos.count
+    }
+}
+
+class ToDo {
+    var title: String
+    var content: String
+    var date: Date
+    var hasNotification: Bool
+
+    init(title: String, content: String, date: Date, hasNotification: Bool) {
+        self.title = title
+        self.content = content
+        self.date = date
+        self.hasNotification = hasNotification
     }
 }
