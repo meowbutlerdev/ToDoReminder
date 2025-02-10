@@ -30,7 +30,12 @@ class TableViewController: UITableViewController, AddToDoDelegate {
     }
 
     func addToDo(_ toDo: ToDo) {
-        toDos.append(toDo)
+        if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            toDos[selectedIndexPath.row] = toDo
+        } else {
+            toDos.append(toDo)
+        }
+
         tableView.reloadData()
     }
 
@@ -38,6 +43,10 @@ class TableViewController: UITableViewController, AddToDoDelegate {
         if segue.identifier == "toAddToDo" {
             if let addToDoVC = segue.destination as? ViewController {
                 addToDoVC.toDoDelegate = self
+
+                if let indexPath = sender as? IndexPath {
+                    addToDoVC.toDo = toDos[indexPath.row]
+                }
             }
         }
     }
@@ -74,6 +83,13 @@ extension TableViewController {
         }
 
         setNoDataLabel()
+    }
+
+    override func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        performSegue(withIdentifier: "toAddToDo", sender: indexPath)
     }
 }
 
