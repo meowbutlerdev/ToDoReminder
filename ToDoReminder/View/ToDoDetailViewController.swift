@@ -63,23 +63,11 @@ class ToDoDetailViewController: UIViewController {
             configureTextField(with: toDo.title)
             configureTextView(with: toDo.content)
 
-//            titleTextField.text = toDo.title.isEmpty ? titlePlaceholder : toDo.title
-//            titleTextField.textColor = toDo.title.isEmpty ? .lightGray : .black
-//
-//            contentTextView.text = toDo.content.isEmpty ? contentPlaceholder : toDo.content
-//            contentTextView.textColor = toDo.content.isEmpty ? .lightGray : .black
-
             datePicker.date = toDo.date
             notificationSwitch.isOn = toDo.hasNotification
         } else {
             configureTextField(with: nil)
             configureTextView(with: nil)
-
-//            titleTextField.text = titlePlaceholder
-//            titleTextField.textColor = .lightGray
-//
-//            contentTextView.text = contentPlaceholder
-//            contentTextView.textColor = .lightGray
         }
     }
 
