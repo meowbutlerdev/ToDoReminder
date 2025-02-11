@@ -40,12 +40,59 @@ class ToDoDetailViewController: UIViewController {
             hasNotification: notificationSwitch.isOn
         )
 
+        if notificationSwitch.isOn {
+            scheduleNotification(toDo: toDo)
+        }
+
         ToDoManager.shared.addOrUpdateToDo(toDo, at: toDoIndex)
         navigationController?.popViewController(animated: true)
     }
 
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+
+    @IBAction func notificationSwitchChanged(_ sender: UISwitch) {
+        UNUserNotificationCenter
+            .current()
+            .getNotificationSettings { settings in
+                DispatchQueue.main.async {
+                    if settings.authorizationStatus != .authorized {
+                        sender.setOn(false, animated: true)
+                        self.showSettingsAlert()
+                    }
+                }}
+    }
+
+    func scheduleNotification(toDo: ToDo) {
+        let content = UNMutableNotificationContent()
+        content.title = "할 일을 시작하세요."
+        content.body = toDo.title
+        content.sound = .default
+
+        let triggerDate = Calendar.current.dateComponents(
+            [.year, .month, .day, .hour, .minute], from: toDo.date
+        )
+        let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: false)
+
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: trigger
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("🚨 알림 등록 실패: \(error.localizedDescription)")
+            } else {
+                UNUserNotificationCenter.current().getPendingNotificationRequests { requests in
+                    print("✅ 현재 등록된 알림 개수: \(requests.count)")
+                    for request in requests {
+                        print("📌 알림 내용: \(request.content.title), 시간: \(request.trigger.debugDescription)")
+                    }
+                }
+            }
+        }
     }
 
     private func setupUI() {
