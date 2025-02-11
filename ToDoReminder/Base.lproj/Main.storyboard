@@ -68,6 +68,9 @@
                                     </datePicker>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="uMO-B3-5Ms">
                                         <rect key="frame" x="304" y="9.6666666666666288" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="notificationSwitchChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="aLu-sV-MSk"/>
+                                        </connections>
                                     </switch>
                                 </subviews>
                             </stackView>
