@@ -60,20 +60,26 @@ class ToDoDetailViewController: UIViewController {
 
     private func configureWithToDo() {
         if let toDo = toDo {
-            titleTextField.text = toDo.title.isEmpty ? titlePlaceholder : toDo.title
-            titleTextField.textColor = toDo.title.isEmpty ? .lightGray : .black
+            configureTextField(with: toDo.title)
+            configureTextView(with: toDo.content)
 
-            contentTextView.text = toDo.content.isEmpty ? contentPlaceholder : toDo.content
-            contentTextView.textColor = toDo.content.isEmpty ? .lightGray : .black
+//            titleTextField.text = toDo.title.isEmpty ? titlePlaceholder : toDo.title
+//            titleTextField.textColor = toDo.title.isEmpty ? .lightGray : .black
+//
+//            contentTextView.text = toDo.content.isEmpty ? contentPlaceholder : toDo.content
+//            contentTextView.textColor = toDo.content.isEmpty ? .lightGray : .black
 
             datePicker.date = toDo.date
             notificationSwitch.isOn = toDo.hasNotification
         } else {
-            titleTextField.text = titlePlaceholder
-            titleTextField.textColor = .lightGray
+            configureTextField(with: nil)
+            configureTextView(with: nil)
 
-            contentTextView.text = contentPlaceholder
-            contentTextView.textColor = .lightGray
+//            titleTextField.text = titlePlaceholder
+//            titleTextField.textColor = .lightGray
+//
+//            contentTextView.text = contentPlaceholder
+//            contentTextView.textColor = .lightGray
         }
     }
 
@@ -88,11 +94,7 @@ class ToDoDetailViewController: UIViewController {
 
 extension ToDoDetailViewController {
     func showAlert(title: String, message: String) {
-        let alert = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: .alert
-        )
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default)
         alert.addAction(okAction)
         present(alert, animated: true)
