@@ -35,7 +35,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="dJm-44-CRQ">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" identifier="toAddToDo" id="J3U-zL-Ud5"/>
+                                <segue destination="BYZ-38-t0r" kind="show" identifier="toToDoDetail" id="J3U-zL-Ud5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

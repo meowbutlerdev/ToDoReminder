@@ -25,7 +25,7 @@ class ToDoListViewController: UITableViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toAddToDo",
+        if segue.identifier == "toToDoDetail",
            let detailVC = segue.destination as? ToDoDetailViewController {
             if let indexPath = sender as? IndexPath {
                 detailVC.toDo = ToDoManager.shared.getToDo(at: indexPath.row)
@@ -37,14 +37,13 @@ class ToDoListViewController: UITableViewController {
 
 extension ToDoListViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        updateBackgroundView()
+
         return toDos.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: "toDo",
-            for: indexPath
-        )
+        let cell = tableView.dequeueReusableCell(withIdentifier: "toDo", for: indexPath)
         cell.textLabel?.text = toDos[indexPath.row].title
 
         return cell
@@ -61,7 +60,8 @@ extension ToDoListViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "toAddToDo", sender: indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "toToDoDetail", sender: indexPath)
     }
 }
 
