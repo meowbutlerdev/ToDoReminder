@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ToDo {
+struct ToDo: Codable {
     var title: String
     var content: String
     var date: Date

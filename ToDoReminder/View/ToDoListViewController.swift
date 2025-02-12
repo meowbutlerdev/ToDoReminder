@@ -15,6 +15,7 @@ class ToDoListViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadToDos()
         checkFirstTimeNotificationRequest()
         updateBackgroundView()
     }
@@ -22,6 +23,7 @@ class ToDoListViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        saveToDos()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -30,6 +32,22 @@ class ToDoListViewController: UITableViewController {
             if let indexPath = sender as? IndexPath {
                 detailVC.toDo = ToDoManager.shared.getToDo(at: indexPath.row)
                 detailVC.toDoIndex = indexPath.row
+            }
+        }
+    }
+
+    func saveToDos() {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(ToDoManager.shared.getToDos()) {
+            UserDefaults.standard.set(encoded, forKey: "toDos")
+        }
+    }
+
+    func loadToDos() {
+        if let savedToDosData = UserDefaults.standard.data(forKey: "toDos") {
+            let decoder = JSONDecoder()
+            if let savedToDos = try? decoder.decode([ToDo].self, from: savedToDosData) {
+                ToDoManager.shared.setToDos(savedToDos)
             }
         }
     }
@@ -54,6 +72,7 @@ extension ToDoListViewController {
                             forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             ToDoManager.shared.removeToDo(at: indexPath.row)
+            saveToDos()
             tableView.deleteRows(at: [indexPath], with: .automatic)
             updateBackgroundView()
         }
