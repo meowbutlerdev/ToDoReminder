@@ -17,6 +17,10 @@ class ToDoManager {
         return toDos
     }
 
+    func setToDos(_ toDos: [ToDo]) {
+        self.toDos = toDos
+    }
+
     func addOrUpdateToDo(_ toDo: ToDo, at index: Int?) {
         if let index = index {
             toDos[index] = toDo
